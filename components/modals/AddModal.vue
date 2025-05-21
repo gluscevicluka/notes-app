@@ -95,15 +95,15 @@
             />
             <button
               type="button"
-              class="text-red-500 hover:text-red-700"
               @click="removeOption(index)"
+              class="w-6 h-6 flex items-center justify-center rounded-full border border-black text-black hover:bg-black hover:text-white transition cursor-pointer"
             >
-              ✕
+              <span class="text-lg leading-none">−</span>
             </button>
           </div>
           <button
             type="button"
-            class="flex mt-3 w-full items-center justify-center text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            class="flex mt-3 w-full items-center justify-center text-white bg-green-700 rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             @click="addOption"
           >
             <img src="/assets/img/add-button-vector.svg" alt="Icon" /> &nbsp;
@@ -113,7 +113,7 @@
             {{ errors.options }}
           </p>
         </div>
-
+        <hr class="border-t border-dashed border-gray-300" />
         <!-- Submit Button -->
         <button
           type="submit"
@@ -240,8 +240,6 @@ function handleSubmit() {
           ? checkboxOptions.value.map((o) => o.label)
           : null,
     };
-
-    console.log("📌 New note created:", note);
 
     emit("create", note);
     emit("close");

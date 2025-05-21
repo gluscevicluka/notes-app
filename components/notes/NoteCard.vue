@@ -1,14 +1,52 @@
 <template>
   <NuxtLink
     :to="`/note/${note.id}`"
-    class="inline-block text-blue-600 text-sm hover:underline"
+    class="inline-block text-blue-600 text-sm no-underline"
   >
     <div
       class="bg-white rounded-xl shadow-md p-6 space-y-3 border border-gray-200"
     >
       <h2 class="text-lg font-semibold text-gray-800">{{ note.title }}</h2>
-      <p class="text-sm text-gray-600 line-clamp-3">{{ note.description }}</p>
-      <p class="text-xs text-gray-400 italic">Type: {{ typeLabel }}</p>
+      <!-- Content type 1 -->
+      <div v-if="note.type === 1 && note.content" class="mt-1">
+        <img
+          :src="note.content"
+          alt="Note image"
+          class="w-full h-auto rounded-md object-cover"
+        />
+      </div>
+      <p
+        class="text-base font-normal leading-[140%] mb-3 align-middle font-inter text-black"
+      >
+        {{ note.description }}
+      </p>
+
+      <!-- Content type 2 -->
+      <ul
+        v-if="note.type === 2 && Array.isArray(note.content)"
+        class="pt-2 space-y-1 text-sm text-gray-700"
+      >
+        <li
+          v-for="(item, index) in note.content"
+          :key="index"
+          class="flex items-center gap-2"
+        >
+          <div class="flex items-center mb-4">
+            <input
+              id="default-checkbox"
+              type="checkbox"
+              checked
+              value=""
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              for="default-checkbox"
+              class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >{{ item }}</label
+            >
+          </div>
+        </li>
+      </ul>
     </div>
   </NuxtLink>
 </template>
@@ -20,6 +58,7 @@ const props = defineProps<{
     title: string;
     description: string;
     type: number;
+    content?: string | string[];
   };
 }>();
 
