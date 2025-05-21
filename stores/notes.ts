@@ -9,40 +9,29 @@ export const useNotesStore = defineStore("notes", () => {
       title: "Test note",
       description: "Test description",
       type: 0,
-      content: null,
     },
     {
       id: "2",
       title: "Test note",
       description: "Test description",
       type: 1,
-      content: null,
     },
     {
       id: "3",
       title: "Test note",
       description: "Test description",
       type: 2,
-      content: null,
     },
     {
       id: "4",
       title: "Test note",
       description: "Test description",
       type: 2,
-      content: null,
     },
   ]);
 
-  function addNote() {
-    const id = Date.now().toString();
-    notes.value.push({
-      id,
-      title: "New Note",
-      description: "",
-      type: 0,
-      content: null,
-    });
+  function addNote(note: Note) {
+    notes.value.push(note);
   }
 
   function updateNote(id: string, updated: Partial<Note>) {

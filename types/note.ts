@@ -5,5 +5,4 @@ export interface Note {
   title: string
   description: string
   type: NoteType
-  content: any
 }
