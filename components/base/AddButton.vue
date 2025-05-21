@@ -1,12 +1,10 @@
 <template>
   <button
-    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+    class="flex text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
     @click="$emit('click')"
   >
     <img src="/assets/img/add-button-vector.svg" alt="Icon" />
-    Add New
+    &nbsp; Add New
   </button>
-  
 </template>
 
-<style scoped></style>

@@ -11,6 +11,27 @@ export const useNotesStore = defineStore("notes", () => {
       type: 0,
       content: null,
     },
+    {
+      id: "2",
+      title: "Test note",
+      description: "Test description",
+      type: 1,
+      content: null,
+    },
+    {
+      id: "3",
+      title: "Test note",
+      description: "Test description",
+      type: 2,
+      content: null,
+    },
+    {
+      id: "4",
+      title: "Test note",
+      description: "Test description",
+      type: 2,
+      content: null,
+    },
   ]);
 
   function addNote() {

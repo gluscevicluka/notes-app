@@ -1,10 +1,12 @@
 <template>
   <div class="p-8 space-y-6">
     <Header />
-    <h1 class="text-2xl font-bold">My Notes</h1>
-    <AddButton />
+    <div class="flex items-center justify-between mt-8">
+      <h1 class="text-2xl font-bold">My Notes</h1>
+      <AddButton />
+    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <NoteCard v-for="note in notes" :key="note.id" :note="note" />
     </div>
   </div>
