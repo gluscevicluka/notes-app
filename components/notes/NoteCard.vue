@@ -1,59 +1,33 @@
 <template>
-  <div class="p-6 max-w-xl mx-auto space-y-4">
-    <h1 class="text-2xl font-bold">Edit Note</h1>
+  <div class="p-4 border rounded shadow space-y-2">
+    <h2 class="text-lg font-bold">{{ note.title }}</h2>
+    <p class="text-sm text-gray-600">{{ note.description }}</p>
+    <p class="text-xs italic">Type: {{ typeLabel }}</p>
 
-    <NoteInput v-model="note.title" label="Title" />
-    <NoteInput v-model="note.description" label="Description" />
-
-    <component :is="noteComponent" v-model="note.content" />
-
-    <AddButton @click="save">Save</AddButton>
-  </div>
-
-      <DialogConfirm
-      :visible="showConfirm"
-      message="Are you sure you want to delete this note?"
-      @confirm="handleDelete"
-      @cancel="showConfirm = false"
-    />
+    <NuxtLink :to="`/note/${note.id}`" class="text-blue-500 hover:underline">
+      Edit
+    </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useNotesStore } from "@/stores/notes";
-import { useRoute, useRouter } from "vue-router";
-import { computed } from "vue";
-import NoteInput from "@/components/base/NoteInput.vue";
-import AddButton from "@/components/base/AddButton.vue";
-import DialogConfirm from '@/components/base/DialogConfirm.vue'
-
-import NoteTypeImage from "@/components/base/NoteTypeImage.vue";
-import NoteTypeCheckbox from "@/components/base/NoteTypeCheckbox.vue";
-
-const route = useRoute();
-const router = useRouter();
-const store = useNotesStore();
-
-const noteId = route.params.id as string;
-const note = store.getNoteById(noteId);
-
-if (!note) {
-  router.push("/");
-}
-
-const noteComponent = computed(() => {
-  switch (note.type) {
-    case 1:
-      return NoteTypeImage;
-    case 2:
-      return NoteTypeCheckbox;
-    default:
-      return null;
+const props = defineProps<{
+  note: {
+    id: string
+    title: string
+    description: string
+    type: number
   }
-});
+}>()
 
-function save() {
-  store.updateNote(note.id, note);
-  router.push("/");
-}
+const typeLabel = computed(() => {
+  switch (props.note.type) {
+    case 1:
+      return 'Image'
+    case 2:
+      return 'Checkbox'
+    default:
+      return 'Default'
+  }
+})
 </script>
