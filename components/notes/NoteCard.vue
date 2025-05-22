@@ -1,10 +1,10 @@
 <template>
-  <NuxtLink
-    :to="`/note/${note.id}`"
-    class="inline-block text-blue-600 text-sm no-underline"
+  <div
+    class="bg-white rounded-xl shadow-md p-6 space-y-3 border border-gray-200 h-full flex flex-col"
   >
-    <div
-      class="bg-white rounded-xl shadow-md p-6 space-y-3 border border-gray-200 h-full flex flex-col"
+    <NuxtLink
+      :to="`/note/${note.id}`"
+      class="inline-block text-blue-600 text-sm no-underline"
     >
       <h2 class="text-lg font-semibold text-gray-800">{{ note.title }}</h2>
       <!-- Content type 1 -->
@@ -47,11 +47,32 @@
           </div>
         </li>
       </ul>
+    </NuxtLink>
+    <!-- Delete section -->
+    <div class="flex justify-end mt-auto">
+      <DeleteButton @click="showConfirm = true" />
     </div>
-  </NuxtLink>
+  
+    <DeleteConfirmModal
+      v-if="showConfirm"
+      @cancel="showConfirm = false"
+      @confirm="handleDelete"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
+import DeleteButton from "@/components/base/DeleteButton.vue";
+import DeleteConfirmModal from "@/components/modals/DeleteConfirmModal.vue";
+
+const showConfirm = ref(false);
+const emit = defineEmits(['delete']);
+
+const handleDelete = () => {
+  emit("delete", props.note.id);
+  showConfirm.value = false;
+};
+
 const props = defineProps<{
   note: {
     id: string;

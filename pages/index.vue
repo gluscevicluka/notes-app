@@ -10,9 +10,18 @@
     </div>
 
     <div
+    v-if="filteredNotes.length > 0"
       class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 items-stretch"
     >
-      <NoteCard v-for="note in filteredNotes" :key="note.id" :note="note" />
+      <NoteCard
+        v-for="note in filteredNotes"
+        :key="note.id"
+        :note="note"
+        @delete="handleDelete"
+      />
+    </div>
+    <div v-else class="font-bold text-center">
+      No Founded Notes
     </div>
     <!-- Modal -->
     <AddModal
@@ -37,6 +46,12 @@ const activeFilters = ref<number[]>([]);
 
 function handleCreate(note: Note) {
   store.addNote(note);
+}
+
+function handleDelete(id: string) {
+  console.log("test");
+
+  store.deleteNote(id);
 }
 
 const filteredNotes = computed(() =>

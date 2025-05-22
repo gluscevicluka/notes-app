@@ -16,10 +16,7 @@ export const useNotesStore = defineStore("notes", () => {
       title: "Frontend Setup",
       description: "Checklist for project initialization",
       type: 2,
-      content: [
-        "Nuxt JS",
-        "Tailwind",
-      ],
+      content: ["Nuxt JS", "Tailwind"],
     },
     {
       id: "3",
@@ -49,7 +46,7 @@ export const useNotesStore = defineStore("notes", () => {
   }
 
   function deleteNote(id: string) {
-    notes.value = notes.value.filter((n) => n.id !== id);
+    notes.value = notes.value.filter((note) => note.id !== id);
   }
 
   function getNoteById(id: string) {
