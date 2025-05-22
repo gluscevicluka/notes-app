@@ -14,68 +14,29 @@
 
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <!-- Select Type -->
-        <div>
-          <select v-model="type" class="w-full rounded-lg p-3 bg-[#F4F4F4]">
-            <option disabled value="">Select type of cart</option>
-            <option value="0">Default</option>
-            <option value="1">Image</option>
-            <option value="2">Checkbox</option>
-          </select>
-          <p v-if="errors.type" class="text-red-500 text-sm mt-1">
-            {{ errors.type }}
-          </p>
-        </div>
+        <SelectTypeField v-model="type" :error="errors.type" />
 
         <!-- Image Upload for type 1 -->
-        <div v-if="type === '1'">
-          <label class="block text-sm font-medium text-gray-700 mb-1"
-            >Upload Image</label
-          >
-          <div
-            class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center text-gray-500 cursor-pointer hover:bg-gray-50"
-          >
-            <input
-              type="file"
-              accept="image/*"
-              @change="handleImageUpload"
-              class="hidden"
-              ref="fileInput"
-            />
-            <div @click="fileInput?.click()">
-              <span v-if="!imageFile">Click to upload image</span>
-              <span v-else>{{ imageFile.name }}</span>
-            </div>
-          </div>
-          <p v-if="errors.image" class="text-red-500 text-sm mt-1">
-            {{ errors.image }}
-          </p>
-        </div>
+        <ImageUploadField
+          v-if="type === '1'"
+          v-model:file="imageFile"
+          v-model:base64="imageBase64"
+          :error="errors.image"
+        />
 
         <!-- Title -->
-        <div>
-          <input
-            type="text"
-            v-model="title"
-            placeholder="Header"
-            class="w-full rounded-lg p-3 bg-[#F4F4F4]"
-          />
-          <p v-if="errors.title" class="text-red-500 text-sm mt-1">
-            {{ errors.title }}
-          </p>
-        </div>
+        <TextInputField
+          v-model="title"
+          placeholder="Header"
+          :error="errors.title"
+        />
 
         <!-- Description -->
-        <div>
-          <textarea
-            v-model="description"
-            placeholder="Description"
-            rows="3"
-            class="w-full rounded-lg p-3 bg-[#F4F4F4]"
-          />
-          <p v-if="errors.description" class="text-red-500 text-sm mt-1">
-            {{ errors.description }}
-          </p>
-        </div>
+        <TextareaField
+          v-model="description"
+          placeholder="Description"
+          :error="errors.description"
+        />
 
         <!-- Checkbox Options for type 2 -->
         <div v-if="type === '2'" class="space-y-2">
@@ -141,6 +102,10 @@
 </template>
 
 <script lang="ts" setup>
+import SelectTypeField from "~/components/base/SelectTypeField.vue";
+import ImageUploadField from "~/components/base/ImageUploadField.vue";
+import TextareaField from "~/components/base/TextareaField.vue";
+import TextInputField from "~/components/base/TextInputField.vue";
 import { ref, reactive, computed } from "vue";
 
 const emit = defineEmits(["close", "create"]);

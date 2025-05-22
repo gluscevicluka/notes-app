@@ -16,7 +16,7 @@
         />
       </div>
       <p
-        class="text-base font-normal leading-[140%] mb-3 align-middle font-inter text-black"
+        class="text-base font-normal leading-[140%] mb-3 align-middle font-inter text-black mt-2"
       >
         {{ note.description }}
       </p>

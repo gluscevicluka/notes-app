@@ -10,7 +10,7 @@
 
     <div
       v-if="show"
-      class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-md p-3 z-50 space-y-2"
+      class="absolute right-0 w-48 bg-white border border-gray-200 rounded-lg shadow-md p-3 z-50 space-y-2"
     >
       <div class="flex items-center gap-2">
         <input type="checkbox" v-model="filters[0]" @change="emitFilters" />

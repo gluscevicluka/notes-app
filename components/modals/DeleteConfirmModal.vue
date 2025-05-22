@@ -13,7 +13,7 @@
             Cancel
           </button>
           <button
-            class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded cursor-pointer"
+            class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full cursor-pointer"
             @click="$emit('confirm')"
           >
             Delete
