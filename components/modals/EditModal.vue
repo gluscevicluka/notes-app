@@ -10,7 +10,7 @@
         ✕
       </button>
 
-      <h2 class="text-xl font-bold">Create New Cart</h2>
+      <h2 class="text-xl font-bold">Update Cart</h2>
 
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <!-- Select Type -->
@@ -153,7 +153,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(["close", "save"]);
-const fileInput = ref<HTMLInputElement | null>(null)
+const fileInput = ref<HTMLInputElement | null>(null);
 const title = ref(props.note.title);
 const description = ref(props.note.description);
 const type = ref(props.note.type.toString());
