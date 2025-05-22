@@ -4,7 +4,7 @@
     class="inline-block text-blue-600 text-sm no-underline"
   >
     <div
-      class="bg-white rounded-xl shadow-md p-6 space-y-3 border border-gray-200"
+      class="bg-white rounded-xl shadow-md p-6 space-y-3 border border-gray-200 h-full flex flex-col"
     >
       <h2 class="text-lg font-semibold text-gray-800">{{ note.title }}</h2>
       <!-- Content type 1 -->

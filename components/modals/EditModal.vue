@@ -117,7 +117,7 @@
         <!-- Submit Button -->
         <button
           type="submit"
-          :disabled="!isFormValid || isSubmitting"
+          :disabled="!isFormValid"
           class="w-full text-white rounded-full py-2 flex items-center justify-center transition"
           :class="
             isFormValid
@@ -125,14 +125,13 @@
               : 'bg-gray-300 cursor-not-allowed'
           "
         >
-          <span v-if="isSubmitting" class="animate-pulse">Creating...</span>
-          <div v-else class="flex items-center">
+          <div class="flex items-center">
             <img
               src="/assets/img/create-icon.svg"
               alt="create icon"
               class="w-4 h-4"
             />
-            &nbsp;Create
+            &nbsp;Save Changes
           </div>
         </button>
       </form>
@@ -140,25 +139,34 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref, reactive, computed } from "vue";
+<script setup lang="ts">
+import { ref, reactive, computed, watch } from "vue";
 
-const emit = defineEmits(["close", "create"]);
+const props = defineProps<{
+  note: {
+    id: string;
+    title: string;
+    description: string;
+    type: number;
+    content?: any;
+  };
+}>();
 
-const title = ref("");
-const description = ref("");
-const type = ref("");
-const isSubmitting = ref(false);
-
-// Image upload
-const fileInput = ref<HTMLInputElement | null>(null);
+const emit = defineEmits(["close", "save"]);
+const fileInput = ref<HTMLInputElement | null>(null)
+const title = ref(props.note.title);
+const description = ref(props.note.description);
+const type = ref(props.note.type.toString());
+const imageBase64 = ref<string | null>(
+  props.note.type === 1 ? props.note.content : null
+);
 const imageFile = ref<File | null>(null);
-const imageBase64 = ref<string | null>(null);
+const checkboxOptions = ref<{ label: string }[]>(
+  props.note.type === 2
+    ? props.note.content.map((label: string) => ({ label }))
+    : []
+);
 
-// Checkbox options
-const checkboxOptions = ref([{ label: "" }]);
-
-// Validation errors
 const errors = reactive({
   title: "",
   description: "",
@@ -167,92 +175,51 @@ const errors = reactive({
   options: "",
 });
 
-// Form validation
 const isFormValid = computed(() => {
   if (!title.value.trim() || !description.value.trim() || !type.value)
     return false;
   if (type.value === "1" && !imageBase64.value) return false;
-  if (
-    type.value === "2" &&
-    checkboxOptions.value.some((opt) => !opt.label.trim())
-  )
+  if (type.value === "2" && checkboxOptions.value.some((o) => !o.label.trim()))
     return false;
   return true;
 });
 
-// Add/remove checkbox options
+function handleImageUpload(e: Event) {
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+  imageFile.value = file;
+  const reader = new FileReader();
+  reader.onload = () => {
+    imageBase64.value = reader.result as string;
+  };
+  reader.readAsDataURL(file);
+}
+
 function addOption() {
   checkboxOptions.value.push({ label: "" });
 }
-
 function removeOption(index: number) {
   checkboxOptions.value.splice(index, 1);
 }
 
-// Image upload handler
-function handleImageUpload(event: Event) {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (file) {
-    imageFile.value = file;
-    const reader = new FileReader();
-    reader.onload = () => {
-      imageBase64.value = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
-// Form submit
 function handleSubmit() {
-  // Reset errors
-  errors.title = "";
-  errors.description = "";
-  errors.type = "";
-  errors.image = "";
-  errors.options = "";
+  if (!isFormValid.value) return;
 
-  // Validate inputs
-  if (!title.value.trim()) errors.title = "Title is required";
-  if (!description.value.trim()) errors.description = "Description is required";
-  if (!type.value) errors.type = "Note type is required";
-  if (type.value === "1" && !imageBase64.value)
-    errors.image = "Image is required";
-  if (
-    type.value === "2" &&
-    checkboxOptions.value.some((opt) => !opt.label.trim())
-  )
-    errors.options = "All checkbox options must be filled";
+  const updatedNote = {
+    ...props.note,
+    title: title.value,
+    description: description.value,
+    type: Number(type.value),
+    content:
+      type.value === "1"
+        ? imageBase64.value
+        : type.value === "2"
+        ? checkboxOptions.value.map((o) => o.label)
+        : null,
+  };
 
-  if (Object.values(errors).some((e) => e)) return;
-
-  isSubmitting.value = true;
-
-  setTimeout(() => {
-    const note = {
-      id: Date.now().toString(),
-      title: title.value,
-      description: description.value,
-      type: Number(type.value),
-      content:
-        type.value === "1"
-          ? imageBase64.value
-          : type.value === "2"
-          ? checkboxOptions.value.map((o) => o.label)
-          : null,
-    };
-
-    emit("create", note);
-    emit("close");
-
-    // Reset form
-    title.value = "";
-    description.value = "";
-    type.value = "";
-    imageFile.value = null;
-    imageBase64.value = null;
-    checkboxOptions.value = [{ label: "" }];
-    isSubmitting.value = false;
-  }, 1000);
+  emit("save", updatedNote);
+  emit("close");
 }
 </script>
 

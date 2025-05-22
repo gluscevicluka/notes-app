@@ -6,27 +6,34 @@ export const useNotesStore = defineStore("notes", () => {
   const notes = ref<Note[]>([
     {
       id: "1",
-      title: "Test note",
-      description: "Test description",
-      type: 0,
+      title: "Grocery List",
+      description: "Things to buy this weekend",
+      type: 2,
+      content: ["Milk", "Eggs", "Bread", "Tomatoes"],
     },
     {
       id: "2",
-      title: "Test note",
-      description: "Test description",
-      type: 1,
+      title: "Frontend Setup",
+      description: "Checklist for project initialization",
+      type: 2,
+      content: [
+        "Nuxt JS",
+        "Tailwind",
+      ],
     },
     {
       id: "3",
-      title: "Test note",
-      description: "Test description",
-      type: 2,
+      title: "Meeting Notes",
+      description: "Discussion about Q2 marketing strategy and KPI updates.",
+      type: 0,
+      content: null,
     },
     {
       id: "4",
-      title: "Test note",
-      description: "Test description",
-      type: 2,
+      title: "Book Ideas",
+      description: "Possible titles and themes for the new novel series.",
+      type: 0,
+      content: null,
     },
   ]);
 
