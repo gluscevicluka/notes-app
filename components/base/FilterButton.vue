@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <button
-      class="flex items-center text-white rounded-full bg-black hover:bg-gray-900 font-medium text-sm px-5 py-2.5 me-2 mb-2 cursor-pointer"
+      class="flex text-white rounded-full bg-black font-medium text-xs sm:text-sm px-3 py-2 sm:px-5 sm:py-2.5 me-2 mb-2 cursor-pointer"
       @click="toggleDropdown"
     >
       <img src="/assets/img/filter-icon.svg" alt="Icon" />
